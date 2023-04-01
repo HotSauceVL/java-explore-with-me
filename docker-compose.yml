@@ -1,8 +1,8 @@
 version: '3.1'
 services:
   stats-server:
-    build: ./statistics
-    image: ewm-stat
+    build: statistics/server
+    image: statistics
     container_name: statistics_container
     ports:
       - "9090:9090"
