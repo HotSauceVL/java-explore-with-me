@@ -1,11 +1,22 @@
 version: '3.1'
 services:
   stats-server:
+    build: ./statistics
     ports:
       - "9090:9090"
+    depends_on:
+      - stats-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
 
   stats-db:
     image: postgres:14-alpine
+    ports:
+      - "5444:5432"
+    environment:
+      - POSTGRES_DB=stats
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
 
   ewm-service:
     ports:
