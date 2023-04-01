@@ -1,7 +1,5 @@
 package ru.practicum.explorewithme.statserver.service;
 
-import ru.practicum.explorewithme.dto.HitDto;
-import ru.practicum.explorewithme.dto.StatDto;
 import ru.practicum.explorewithme.statserver.db.Hit;
 import ru.practicum.explorewithme.statserver.db.Stat;
 

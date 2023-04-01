@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class DtoMapper {
 
-    public static Stat fromStatDto (StatDto statDto) {
+    public static Stat fromStatDto(StatDto statDto) {
         return new Stat(
                 null,
                 statDto.getApp(),
@@ -25,7 +25,7 @@ public class DtoMapper {
         );
     }
 
-    public static StatDto toStatDto (Stat stat) {
+    public static StatDto toStatDto(Stat stat) {
         return new StatDto(
                 stat.getId(),
                 stat.getApp(),
@@ -35,7 +35,7 @@ public class DtoMapper {
         );
     }
 
-    public static HitDto toHitDto (Hit hit) {
+    public static HitDto toHitDto(Hit hit) {
         return new HitDto(
                 hit.getApp(),
                 hit.getUri(),

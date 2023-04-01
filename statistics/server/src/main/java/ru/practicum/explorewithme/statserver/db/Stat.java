@@ -17,15 +17,15 @@ public class Stat {
     @Column(name = "id")
     private Long id;
 
-    @Column(name="app")
+    @Column(name = "app")
     private String app;
 
-    @Column(name="uri")
+    @Column(name = "uri")
     private String uri;
 
-    @Column(name="ip")
+    @Column(name = "ip")
     private String ip;
 
-    @Column(name="time_stamp")
+    @Column(name = "time_stamp")
     private LocalDateTime timestamp;
 }
