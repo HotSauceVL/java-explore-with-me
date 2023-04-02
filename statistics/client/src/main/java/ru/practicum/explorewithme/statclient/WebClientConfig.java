@@ -1,7 +1,6 @@
 package ru.practicum.explorewithme.statclient;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -15,10 +14,12 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class WebClientConfig {
+
+    private static final String serverUrl = "https://localhost:9090";
     private static final int TIMEOUT = 5000;
 
     @Bean
-    public WebClient webClientWithTimeout(@ Value ("${stats-server.url}") String serverUrl) {
+    public WebClient webClientWithTimeout() {
         final HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TIMEOUT)
                 .responseTimeout(Duration.ofMillis(TIMEOUT))
