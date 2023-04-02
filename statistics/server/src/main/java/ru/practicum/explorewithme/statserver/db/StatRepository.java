@@ -2,25 +2,29 @@ package ru.practicum.explorewithme.statserver.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface StatRepository extends JpaRepository<Stat, Long> {
 
-    @Query(nativeQuery = true, value = "SELECT s.app AS app, s.uri AS uri, COUNT(s.uri) AS hits " +
-            "FROM stats AS s " +
-            "WHERE ((s.time_stamp between ?1 AND ?2) " +
-            "AND (?3 is null or s.uri in ?3))" +
-            "GROUP BY s.app, s.uri")
-    List<Hit> getStats(LocalDateTime start, LocalDateTime end, List<String> uris);
+    @Query("SELECT new ru.practicum.explorewithme.statserver.db.Hit (s.app, s.uri, COUNT(s.ip)) " +
+            "FROM Stat s " +
+            "WHERE s.timestamp >= :start " +
+            "AND s.timestamp <= :end " +
+            "GROUP BY s.app, s.uri " +
+            "ORDER BY count(s.ip) desc")
+    List<Hit> getStats(@Param("start") LocalDateTime start,
+                       @Param("end") LocalDateTime end);
 
-    @Query(nativeQuery = true, value = "SELECT s.app AS app, s.uri AS uri, COUNT(s.uri) AS hits " +
-            "FROM (SELECT DISTINCT ip AS i, * " +
-            "FROM stats) AS s " +
-            "WHERE ((s.time_stamp between ?1 AND ?2) " +
-            "AND (?3 is null or s.uri in ?3))" +
-            "GROUP BY s.app, s.uri")
-    List<Hit> getStatWithUniqueIp(LocalDateTime start, LocalDateTime end, List<String> uris);
+    @Query("SELECT new ru.practicum.explorewithme.statserver.db.Hit (s.app, s.uri, COUNT(DISTINCT s.ip)) " +
+            "FROM Stat s " +
+            "WHERE s.timestamp >= :start " +
+            "AND s.timestamp <= :end " +
+            "GROUP BY s.app, s.uri " +
+            "ORDER BY count(DISTINCT s.ip) Desc")
+    List<Hit> getStatWithUniqueIp(@Param("start") LocalDateTime start,
+                                  @Param("end") LocalDateTime end);
 
 }

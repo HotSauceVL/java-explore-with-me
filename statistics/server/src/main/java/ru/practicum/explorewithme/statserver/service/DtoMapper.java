@@ -20,7 +20,7 @@ public class DtoMapper {
                 statDto.getApp(),
                 statDto.getUri(),
                 statDto.getIp(),
-                LocalDateTime.parse(statDto.getTimestamp().toString(),
+                LocalDateTime.parse(statDto.getTimestamp(),
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         );
     }
@@ -31,7 +31,7 @@ public class DtoMapper {
                 stat.getApp(),
                 stat.getUri(),
                 stat.getIp(),
-                stat.getTimestamp()
+                stat.getTimestamp().toString()
         );
     }
 

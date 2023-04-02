@@ -10,6 +10,7 @@ import ru.practicum.explorewithme.statserver.db.StatRepository;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -21,15 +22,20 @@ public class StatServiceImpl implements StatService {
     @Override
     public Stat create(Stat stat) {
         Stat savedStat = statRepository.save(stat);
-        log.debug("stat saved: {}", savedStat);
+        log.info("stat saved: App {}, Uri {}, Ip {}", savedStat.getApp(), savedStat.getUri(), savedStat.getIp());
         return savedStat;
     }
 
     @Override
     public List<Hit> get(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+        log.info("get stat with start {}, end {}, uris {}, unique {}", start, end, uris, unique);
         if (unique)
-            return statRepository.getStatWithUniqueIp(start, end, (uris == null ? Collections.emptyList() : uris));
+            return uris != null && uris.size() != 0 ? statRepository.getStatWithUniqueIp(start, end).stream()
+                    .filter(result -> uris.contains(result.getUri())).collect(Collectors.toList())
+                    : statRepository.getStatWithUniqueIp(start, end);
         else
-            return statRepository.getStats(start, end, (uris == null ? Collections.emptyList() : uris));
+            return uris != null && uris.size() != 0 ? statRepository.getStats(start, end).stream()
+                    .filter(result -> uris.contains(result.getUri())).collect(Collectors.toList())
+                    : statRepository.getStats(start, end);
     }
 }
