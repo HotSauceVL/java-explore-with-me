@@ -11,6 +11,7 @@ import ru.practicum.explorewithme.statserver.service.StatService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StatServerController {
     private final StatService statsService;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
@@ -27,11 +29,12 @@ public class StatServerController {
     }
 
     @GetMapping("/stats")
-    public List<HitDto> get(@RequestParam(name = "start") LocalDateTime start,
-                            @RequestParam(name = "end") LocalDateTime end,
+    public List<HitDto> get(@RequestParam(name = "start") String start,
+                            @RequestParam(name = "end") String end,
                             @RequestParam(name = "uris", required = false) List<String> uris,
                             @RequestParam(name = "unique", defaultValue = "false") Boolean unique) {
-        return statsService.get(start, end, uris, unique).stream()
+        return statsService.get(LocalDateTime.parse(start, formatter),
+                        LocalDateTime.parse(end, formatter), uris, unique).stream()
                 .map(DtoMapper::toHitDto).collect(Collectors.toList());
     }
 }
