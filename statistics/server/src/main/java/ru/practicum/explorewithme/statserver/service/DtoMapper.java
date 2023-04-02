@@ -16,7 +16,7 @@ public class DtoMapper {
 
     public static Stat fromStatDto(StatDto statDto) {
         return new Stat(
-                null,
+                statDto.getId(),
                 statDto.getApp(),
                 statDto.getUri(),
                 statDto.getIp(),
