@@ -1,7 +1,7 @@
-package ru.practicum.explorewithme.statserver.service;
+package ru.practicum.explorewithme.statserver.mapper;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.explorewithme.dto.HitDto;
 import ru.practicum.explorewithme.dto.StatDto;
 import ru.practicum.explorewithme.statserver.db.Hit;
@@ -10,8 +10,7 @@ import ru.practicum.explorewithme.statserver.db.Stat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Service
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DtoMapper {
 
     public static Stat fromStatDto(StatDto statDto) {
